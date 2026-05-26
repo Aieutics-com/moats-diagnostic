@@ -11,6 +11,20 @@ interface IntakeStepProps {
   onMode: (m: Mode) => void;
 }
 
+function optionClasses(selected: boolean): string {
+  return `w-full text-left rounded-xl border-2 p-5 transition-all duration-200 cursor-pointer ${
+    selected
+      ? "border-[var(--color-orange)] bg-[var(--color-orange-vsoft)]"
+      : "border-[var(--color-grey-light)] bg-[var(--color-white)] hover:border-[var(--color-grey-lighter)]"
+  }`;
+}
+
+function labelClasses(selected: boolean): string {
+  return `font-[family-name:var(--font-heading)] text-sm font-bold mb-1 ${
+    selected ? "text-[var(--color-orange)]" : "text-[var(--color-foreground)]"
+  }`;
+}
+
 export default function IntakeStep({
   stage,
   sector,
@@ -21,65 +35,74 @@ export default function IntakeStep({
 }: IntakeStepProps) {
   return (
     <div>
-      <div className="mb-10">
-        <p className="font-[family-name:var(--font-mono)] text-xs font-bold uppercase tracking-widest text-[var(--color-orange)] mb-2">
-          Step 1 of 9 — Intake
-        </p>
-        <h2 className="font-[family-name:var(--font-heading)] text-2xl md:text-3xl font-bold mb-2">
+      <div className="mb-6">
+        <h2 className="font-[family-name:var(--font-heading)] text-xl md:text-2xl font-bold mb-1">
           Frame the company
         </h2>
-        <p className="font-[family-name:var(--font-body)] text-[var(--color-grey)] text-base italic">
+        <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] leading-relaxed">
           Stage and sector calibrate how strictly each moat is weighed. Mode shapes the tone.
         </p>
       </div>
 
       {/* Stage */}
       <section className="mb-8">
-        <h3 className="font-[family-name:var(--font-heading)] text-lg font-bold mb-3">Stage</h3>
+        <p className="font-[family-name:var(--font-heading)] text-xs font-bold uppercase tracking-widest text-[var(--color-orange)] mb-3">
+          Stage
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {STAGES.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => onStage(s.id)}
-              className={`text-left rounded-xl border p-4 transition-all cursor-pointer ${
-                stage === s.id
-                  ? "border-[var(--color-orange)] bg-[var(--color-orange-vsoft)]"
-                  : "border-[var(--color-grey-light)] bg-[var(--color-white)] hover:border-[var(--color-foreground)]"
-              }`}
-            >
-              <p className="font-[family-name:var(--font-heading)] text-base font-bold mb-1">
-                {s.label}
-              </p>
-              <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)]">
-                {s.description}
-              </p>
-            </button>
-          ))}
+          {STAGES.map((s) => {
+            const selected = stage === s.id;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => onStage(s.id)}
+                className={optionClasses(selected)}
+              >
+                <p className={labelClasses(selected)}>{s.label}</p>
+                <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] leading-relaxed">
+                  {s.description}
+                </p>
+              </button>
+            );
+          })}
         </div>
       </section>
 
       {/* Sector */}
       <section className="mb-8">
-        <h3 className="font-[family-name:var(--font-heading)] text-lg font-bold mb-3">Sector</h3>
+        <p className="font-[family-name:var(--font-heading)] text-xs font-bold uppercase tracking-widest text-[var(--color-orange)] mb-3">
+          Sector
+        </p>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          {SECTORS.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => onSector(s.id)}
-              className={`text-left rounded-xl border px-3 py-2 transition-all cursor-pointer ${
-                sector === s.id
-                  ? "border-[var(--color-orange)] bg-[var(--color-orange-vsoft)]"
-                  : "border-[var(--color-grey-light)] bg-[var(--color-white)] hover:border-[var(--color-foreground)]"
-              }`}
-            >
-              <p className="font-[family-name:var(--font-body)] text-sm">{s.label}</p>
-            </button>
-          ))}
+          {SECTORS.map((s) => {
+            const selected = sector === s.id;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => onSector(s.id)}
+                className={`w-full text-left rounded-xl border-2 px-4 py-3 transition-all duration-200 cursor-pointer ${
+                  selected
+                    ? "border-[var(--color-orange)] bg-[var(--color-orange-vsoft)]"
+                    : "border-[var(--color-grey-light)] bg-[var(--color-white)] hover:border-[var(--color-grey-lighter)]"
+                }`}
+              >
+                <p
+                  className={`font-[family-name:var(--font-body)] text-sm ${
+                    selected
+                      ? "text-[var(--color-orange)] font-bold"
+                      : "text-[var(--color-foreground)]"
+                  }`}
+                >
+                  {s.label}
+                </p>
+              </button>
+            );
+          })}
         </div>
         {sector === "consumer" && (
-          <p className="mt-3 font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] italic">
+          <p className="mt-3 font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] italic leading-relaxed">
             Note: Rajaram explicitly excludes Brand from the 8 Moats. A separate Brand overlay will be shown in your results.
           </p>
         )}
@@ -87,27 +110,26 @@ export default function IntakeStep({
 
       {/* Mode */}
       <section>
-        <h3 className="font-[family-name:var(--font-heading)] text-lg font-bold mb-3">Mode</h3>
+        <p className="font-[family-name:var(--font-heading)] text-xs font-bold uppercase tracking-widest text-[var(--color-orange)] mb-3">
+          Mode
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {MODES.map((m) => (
-            <button
-              key={m.id}
-              type="button"
-              onClick={() => onMode(m.id)}
-              className={`text-left rounded-xl border p-4 transition-all cursor-pointer ${
-                mode === m.id
-                  ? "border-[var(--color-orange)] bg-[var(--color-orange-vsoft)]"
-                  : "border-[var(--color-grey-light)] bg-[var(--color-white)] hover:border-[var(--color-foreground)]"
-              }`}
-            >
-              <p className="font-[family-name:var(--font-heading)] text-base font-bold mb-1">
-                {m.label}
-              </p>
-              <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)]">
-                {m.description}
-              </p>
-            </button>
-          ))}
+          {MODES.map((m) => {
+            const selected = mode === m.id;
+            return (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => onMode(m.id)}
+                className={optionClasses(selected)}
+              >
+                <p className={labelClasses(selected)}>{m.label}</p>
+                <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] leading-relaxed">
+                  {m.description}
+                </p>
+              </button>
+            );
+          })}
         </div>
       </section>
     </div>

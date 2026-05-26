@@ -38,6 +38,28 @@ const CLAIM_OPTIONS: { id: Claim; label: string; description: string }[] = [
   },
 ];
 
+function cardClasses(selected: boolean): string {
+  return `w-full text-left rounded-xl border-2 p-5 transition-all duration-200 cursor-pointer ${
+    selected
+      ? "border-[var(--color-orange)] bg-[var(--color-orange-vsoft)]"
+      : "border-[var(--color-grey-light)] bg-[var(--color-white)] hover:border-[var(--color-grey-lighter)]"
+  }`;
+}
+
+function labelClasses(selected: boolean): string {
+  return `font-[family-name:var(--font-heading)] text-sm font-bold mb-1 ${
+    selected ? "text-[var(--color-orange)]" : "text-[var(--color-foreground)]"
+  }`;
+}
+
+function evidenceOptionClasses(selected: boolean): string {
+  return `w-full text-left rounded-lg border-2 px-3 py-2 transition-all duration-200 cursor-pointer ${
+    selected
+      ? "border-[var(--color-orange)] bg-[var(--color-orange-vsoft)]"
+      : "border-[var(--color-grey-light)] bg-[var(--color-background)] hover:border-[var(--color-grey-lighter)]"
+  }`;
+}
+
 export default function MoatStep({
   moat,
   totalMoats,
@@ -54,17 +76,17 @@ export default function MoatStep({
   return (
     <div>
       {/* Heading */}
-      <div className="mb-8">
+      <div className="mb-6">
         <p className="font-[family-name:var(--font-mono)] text-xs font-bold uppercase tracking-widest text-[var(--color-orange)] mb-2">
           Moat {moat.index} of {totalMoats}
         </p>
-        <h2 className="font-[family-name:var(--font-heading)] text-2xl md:text-3xl font-bold mb-3">
+        <h2 className="font-[family-name:var(--font-heading)] text-xl md:text-2xl font-bold mb-2">
           {moat.name}
         </h2>
-        <p className="font-[family-name:var(--font-body)] text-base text-[var(--color-foreground)] mb-3">
+        <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] leading-relaxed mb-3">
           {moat.description}
         </p>
-        <blockquote className="border-l-2 border-[var(--color-orange)] pl-4 font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] italic">
+        <blockquote className="border-l-2 border-[var(--color-orange)] pl-4 font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] italic leading-relaxed">
           &ldquo;{moat.rajaramQuote}&rdquo;
           <span className="not-italic block mt-1 text-xs">
             — Gokul Rajaram, 20VC, 16 March 2026
@@ -74,29 +96,26 @@ export default function MoatStep({
 
       {/* Claim */}
       <section className="mb-8">
-        <h3 className="font-[family-name:var(--font-heading)] text-lg font-bold mb-3">
-          What is your claim on this moat?
-        </h3>
+        <p className="font-[family-name:var(--font-heading)] text-xs font-bold uppercase tracking-widest text-[var(--color-orange)] mb-3">
+          Your claim on this moat
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {CLAIM_OPTIONS.map((opt) => (
-            <button
-              key={opt.id}
-              type="button"
-              onClick={() => onClaim(opt.id)}
-              className={`text-left rounded-xl border p-4 transition-all cursor-pointer ${
-                response.claim === opt.id
-                  ? "border-[var(--color-orange)] bg-[var(--color-orange-vsoft)]"
-                  : "border-[var(--color-grey-light)] bg-[var(--color-white)] hover:border-[var(--color-foreground)]"
-              }`}
-            >
-              <p className="font-[family-name:var(--font-heading)] text-base font-bold mb-1">
-                {opt.label}
-              </p>
-              <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)]">
-                {opt.description}
-              </p>
-            </button>
-          ))}
+          {CLAIM_OPTIONS.map((opt) => {
+            const selected = response.claim === opt.id;
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                onClick={() => onClaim(opt.id)}
+                className={cardClasses(selected)}
+              >
+                <p className={labelClasses(selected)}>{opt.label}</p>
+                <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] leading-relaxed">
+                  {opt.description}
+                </p>
+              </button>
+            );
+          })}
         </div>
       </section>
 
@@ -106,7 +125,7 @@ export default function MoatStep({
           <section className="mb-8">
             <label
               htmlFor={`rationale-${moat.id}`}
-              className="block font-[family-name:var(--font-heading)] text-base font-bold mb-2"
+              className="block font-[family-name:var(--font-heading)] text-xs font-bold uppercase tracking-widest text-[var(--color-orange)] mb-3"
             >
               In one or two sentences, why?
             </label>
@@ -120,17 +139,17 @@ export default function MoatStep({
                   : "e.g. We are wiring the feedback loop now; first signal due Q3."
               }
               rows={3}
-              className="w-full rounded-xl border border-[var(--color-grey-light)] bg-[var(--color-white)] p-4 font-[family-name:var(--font-body)] text-base focus:outline-none focus:border-[var(--color-orange)] resize-y"
+              className="w-full rounded-xl border-2 border-[var(--color-grey-light)] bg-[var(--color-white)] p-4 font-[family-name:var(--font-body)] text-sm leading-relaxed focus:outline-none focus:border-[var(--color-orange)] resize-y transition-colors duration-200"
             />
           </section>
 
           {/* Evidence */}
           {questions.length > 0 && (
             <section className="mb-8">
-              <h3 className="font-[family-name:var(--font-heading)] text-lg font-bold mb-1">
+              <p className="font-[family-name:var(--font-heading)] text-xs font-bold uppercase tracking-widest text-[var(--color-orange)] mb-1">
                 Evidence
-              </h3>
-              <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] mb-4 italic">
+              </p>
+              <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] mb-4 leading-relaxed italic">
                 {questions.length} stage-relevant question
                 {questions.length === 1 ? "" : "s"}. Pick the answer that best describes today, not next quarter.
               </p>
@@ -138,9 +157,9 @@ export default function MoatStep({
                 {questions.map((q, qi) => (
                   <div
                     key={q.id}
-                    className="rounded-xl border border-[var(--color-grey-light)] bg-[var(--color-white)] p-4"
+                    className="rounded-xl border-2 border-[var(--color-grey-light)] bg-[var(--color-white)] p-5"
                   >
-                    <p className="font-[family-name:var(--font-body)] text-sm font-bold mb-3">
+                    <p className="font-[family-name:var(--font-body)] text-sm font-bold mb-3 leading-relaxed">
                       <span className="font-[family-name:var(--font-mono)] text-xs text-[var(--color-orange)] mr-2">
                         {String(qi + 1).padStart(2, "0")}.
                       </span>
@@ -154,16 +173,24 @@ export default function MoatStep({
                             key={opt.grade}
                             type="button"
                             onClick={() => onEvidence(q.id, opt.grade)}
-                            className={`w-full text-left rounded-lg border px-3 py-2 transition-all cursor-pointer ${
-                              selected
-                                ? "border-[var(--color-orange)] bg-[var(--color-orange-vsoft)]"
-                                : "border-[var(--color-grey-light)] bg-[var(--color-background)] hover:border-[var(--color-foreground)]"
-                            }`}
+                            className={evidenceOptionClasses(selected)}
                           >
-                            <span className="font-[family-name:var(--font-mono)] text-xs font-bold text-[var(--color-orange)] mr-2">
+                            <span
+                              className={`font-[family-name:var(--font-mono)] text-xs font-bold mr-2 ${
+                                selected
+                                  ? "text-[var(--color-orange)]"
+                                  : "text-[var(--color-orange)]"
+                              }`}
+                            >
                               {opt.grade}
                             </span>
-                            <span className="font-[family-name:var(--font-body)] text-sm">
+                            <span
+                              className={`font-[family-name:var(--font-body)] text-sm leading-relaxed ${
+                                selected
+                                  ? "text-[var(--color-orange)] font-bold"
+                                  : "text-[var(--color-foreground)]"
+                              }`}
+                            >
                               {opt.label}
                             </span>
                           </button>
@@ -180,11 +207,11 @@ export default function MoatStep({
           <section>
             <label
               htmlFor={`redteam-${moat.id}`}
-              className="block font-[family-name:var(--font-heading)] text-base font-bold mb-2"
+              className="block font-[family-name:var(--font-heading)] text-xs font-bold uppercase tracking-widest text-[var(--color-orange)] mb-3"
             >
               Red team (optional)
             </label>
-            <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] mb-3 italic">
+            <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] mb-3 leading-relaxed italic">
               {moat.redTeamPrompt}
             </p>
             <textarea
@@ -193,14 +220,14 @@ export default function MoatStep({
               onChange={(e) => onRedTeam(e.target.value)}
               placeholder="One sentence is enough."
               rows={2}
-              className="w-full rounded-xl border border-[var(--color-grey-light)] bg-[var(--color-white)] p-3 font-[family-name:var(--font-body)] text-sm focus:outline-none focus:border-[var(--color-orange)] resize-y"
+              className="w-full rounded-xl border-2 border-[var(--color-grey-light)] bg-[var(--color-white)] p-4 font-[family-name:var(--font-body)] text-sm leading-relaxed focus:outline-none focus:border-[var(--color-orange)] resize-y transition-colors duration-200"
             />
           </section>
         </>
       )}
 
       {response.claim === "na" && (
-        <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] italic">
+        <p className="font-[family-name:var(--font-body)] text-sm text-[var(--color-grey)] italic leading-relaxed">
           Marked not applicable. This moat will appear on your radar as &ldquo;N/A — confirmed not relevant&rdquo; rather than as a zero.
         </p>
       )}

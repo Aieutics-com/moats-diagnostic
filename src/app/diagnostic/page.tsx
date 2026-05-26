@@ -123,7 +123,10 @@ export default function DiagnosticPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const label = step === 0 ? "Intake" : `Moat ${step} of ${MOATS.length}`;
+  const progressLabels = [
+    { name: "Intake", count: 1 },
+    { name: "Moats", count: MOATS.length },
+  ];
 
   return (
     <main className="min-h-screen flex flex-col">
@@ -148,8 +151,8 @@ export default function DiagnosticPage() {
         <div className="max-w-3xl mx-auto">
           {!showResults ? (
             <>
-              <div className="mb-10 no-print">
-                <ProgressBar currentStep={step} totalSteps={TOTAL_STEPS} label={label} />
+              <div className="mb-8 no-print">
+                <ProgressBar total={TOTAL_STEPS} current={step} labels={progressLabels} />
               </div>
 
               {step === 0 ? (
