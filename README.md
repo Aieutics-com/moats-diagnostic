@@ -1,5 +1,8 @@
 # 8 Moats Diagnostic
 
+[![Deploy to GitHub Pages](https://github.com/Aieutics-com/moats-diagnostic/actions/workflows/deploy.yml/badge.svg)](https://github.com/Aieutics-com/moats-diagnostic/actions/workflows/deploy.yml)
+
+
 Interactive self-assessment that probes the gap between a startup's *claimed* defensibility and its *evidenced* defensibility across Gokul Rajaram's 8 Moats (20VC, 16 March 2026): data, workflow, regulatory, distribution, ecosystem, network, physical infrastructure, scale.
 
 ## Status
