@@ -97,7 +97,7 @@ export default function Home() {
           {/* Source link */}
           <div className="mt-8">
             <a
-              href="https://www.youtube.com/watch?v=DTNgmEX-WP4"
+              href="https://www.youtube.com/watch?v=6ctOnY1WmBw"
               target="_blank"
               rel="noopener noreferrer"
               className="font-[family-name:var(--font-body)] text-sm text-white/50 hover:text-white/70 transition-colors"
