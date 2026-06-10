@@ -51,7 +51,15 @@ export default function Home() {
             What you claim about your defensibility, and what the evidence actually supports.
           </p>
           <p className="font-[family-name:var(--font-body)] text-sm md:text-base text-white/70 leading-relaxed mb-10 max-w-xl mx-auto">
-            A claim-and-evidence diagnostic across Gokul Rajaram&apos;s 8 Moats. Captures your claim per moat, probes for evidence with a stage-graded rubric, and returns a verdict that distinguishes the load-bearing from the aspirational.
+            A claim-and-evidence diagnostic across Gokul Rajaram&apos;s 8 Moats. Captures your claim per moat, probes for evidence with a stage-graded rubric, and returns a verdict that distinguishes the load-bearing from the aspirational.{" "}
+            <a
+              href="https://aieutics.com/article-archive/the-eight-moats-and-the-critical-path-from-claimed-defensibility-to-earned-evidence"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--color-orange)] hover:text-[var(--color-orange)]/80 transition-colors"
+            >
+              Read the article &rarr;
+            </a>
           </p>
 
           <Link
